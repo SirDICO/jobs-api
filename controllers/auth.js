@@ -11,20 +11,17 @@ const {BadRequestError, UnauthenticatedError} = require('../errors')
    res.status(StatusCodes.CREATED).json({user: {name: user.name}, token})
    }  
 
-   const login = async (req, res)=>{
+   const login = async (req, res) => {
     const {email, password} = req.body
 
     if(!email || !password)
     {
       throw new BadRequestError('Please provide email and password')
-     }
-
+    }
 
      const user = await User.findOne({email})
 
-  
-     
-      if(!user){
+    if(!user){
       throw new UnauthenticatedError('Invalid Email')
      }
      
@@ -35,8 +32,6 @@ const {BadRequestError, UnauthenticatedError} = require('../errors')
      }
 
     const token = user.createJWT();
-
-    
 
     res.status(StatusCodes.OK).json({user: {name:user.name}, token})
   }
